@@ -128,23 +128,29 @@ class Hgt(models.Model):
 #                                                            #
 ##############################################################
 
-class RequestJob(models.Model):
+class Job(models.Model):
     status = models.TextField()
     dateCreated = models.DateTimeField(auto_now_add=True, editable=False)
     lastModified = models.DateTimeField(auto_now=True)
     result = models.ForeignKey(RequestResult, null=True, unique=True, default=None)
     completed = models.FloatField()
-
     class Meta:
         db_table = u'requestjob'
         app_label = u'operons.rest'
 
-class RequestResult(models.Model):
+class Figure(models.Model):
+    result = models.ForeignKey(Result)
+    url = models.TextField(unique=True)
+    class Meta:
+        db_table = u'figure'
+        app_label = u'operons.rest'
+
+class Result(models.Model):
     '''
         The representation of the output of the OperonEvoDB service.
     '''
+    deletions = models.IntegerField()
     dateCreated = models.DateTimeField(auto_now_add=True, editable=False)
-
     class Meta:
         db_table = u'requestresult'
         app_label = u'operons.rest'
