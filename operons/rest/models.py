@@ -150,6 +150,11 @@ class Result(models.Model):
         The representation of the output of the OperonEvoDB service.
     '''
     deletions = models.IntegerField()
+    duplications = models.IntegerField()
+    splits = models.IntegerField()
+    rearrangements = models.IntegerField()
+    hgt = models.IntegerField()
+    job = models.ForeignKey(Job, unique=True)
     dateCreated = models.DateTimeField(auto_now_add=True, editable=False)
     class Meta:
         db_table = u'requestresult'

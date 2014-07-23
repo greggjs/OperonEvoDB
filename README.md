@@ -4,6 +4,8 @@ Install system (aptitude) dependencies before pip dependencies for a seamless in
 
 ## Aptitude
 
+
+- RabbitMQ: follow [Install RabbitMQ on Debian](http://www.rabbitmq.com/install-debian.html)
 - mysql-server
 - apache2
 - libapache2-mod-wsgi
@@ -24,7 +26,7 @@ export WORKON_HOME=/virtualenvs
 source "$(which virtualenvwrapper.sh)"
 ```
 
-- Change the owner of /virtualenvs to you: <code>sudo chown $USER:$USER /virtualenvs/</code>
+- Create and change the owner of /virtualenvs to you: <code>sudo chown $USER:$USER /virtualenvs/</code>
 
 - Source your new ~/.bashrc: <code>source ~/.bashrc</code>
 

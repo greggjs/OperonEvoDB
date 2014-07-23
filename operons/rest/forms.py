@@ -7,18 +7,19 @@
     @author: Andrew Oberlin
 '''
 from django import forms
-from models import RequestJob
-from serializers import RequestJobSerializer, RequestResultSerializer
-from exceptions import RequestJobDoesNotExist
+from models import Job
+from serializers import JobSerializer, ResultSerializer
+from exceptions import JobDoesNotExist
 from django.core.exceptions import ValidationError
+import json
 
-class RequestJobForm(forms.Form):
+class JobForm(forms.Form):
     # Path parameters
     request_job_id = forms.IntegerField(required=True)
 
     def clean_request_job_id(self):
         if self.cleaned_data['request_job_id'] < 0:
-            raise ValidationError("The given RequestJob's id is incorrect.")
+            raise ValidationError("The given Job's id is incorrect.")
         return self.cleaned_data['request_job_id']
 
     def submit(self, request):
@@ -26,22 +27,36 @@ class RequestJobForm(forms.Form):
             Returns a serialized job with its current status. Used for polling.
         '''
         try:
-            job = RequestJob.objects.get(pk__exact=self.cleaned_data['request_job_id'])
-        except (RequestJob.DoesNotExist, ValueError):
-            raise RequestJobDoesNotExist():
+            job = Job.objects.get(pk__exact=self.cleaned_data['request_job_id'])
+        except (Job.DoesNotExist, ValueError):
+            raise JobDoesNotExist():
 
-        return RequestJobSerializer(job).data
+        return JobSerializer(job).data
 
-class RequestJobListForm(forms.Form):
-    pass
+class JobListForm(forms.Form):
+    # Post parameters
+    sequence = forms.CharField(required=True)
 
-class RequestResultForm(forms.Form):
+    def clean_sequence(self):
+        try:
+            # check to see if it is valid json and thus a list of genes
+
+        except ValueError:
+            # check to make sure the input is a valid sequence
+
+
+    def submit(self, request):
+
+
+
+
+class ResultForm(forms.Form):
     # Path parameters
     request_result_id = forms.IntegerField(required=True)
 
     def clean_request_result_id(self):
         if self.cleaned_data['request_result_id'] < 0:
-            raise ValidationError("The given RequestResult's id is incorrect.")
+            raise ValidationError("The given Result's id is incorrect.")
         return self.cleaned_data['request_result_id']
 
     def submit(self, request):
@@ -49,8 +64,8 @@ class RequestResultForm(forms.Form):
             Returns a serialized result corresponding to the given id.
         '''
         try:
-            result = RequestResult.objects.get(pk__exact=self.cleaned_data['request_result_id'])
-        except (RequestJob.DoesNotExist, ValueError):
-            raise RequestJobDoesNotExist():
+            result = Result.objects.get(pk__exact=self.cleaned_data['request_result_id'])
+        except (Job.DoesNotExist, ValueError):
+            raise JobDoesNotExist():
 
-        return RequestResultSerializer(result).data
+        return ResultSerializer(result).data
