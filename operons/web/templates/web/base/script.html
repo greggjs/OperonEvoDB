@@ -1,0 +1,9 @@
+{% load staticfiles %}
+<script type="text/javascript">
+    var require = {
+        baseUrl: '{% static "js/" %}'
+    };
+</script>
+{% with 'js/'|add:script as script_location %}
+<script type="text/javascript" data-main="{% static script_location %}" src="{% static "js/lib/require.js" %}"></script>
+{% endwith %}

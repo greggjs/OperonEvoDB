@@ -8,7 +8,6 @@ from django.db import models
 ##############################################################
 
 class Taxonomy(models.Model):
-    tax_id = models.IntegerField(primary_key=True)
     kingdom = models.CharField(max_length=45, blank=True)
     phylum = models.CharField(max_length=45, blank=True)
     # Field below renamed because it was a Python reserved word.
@@ -51,7 +50,7 @@ class Gene(models.Model):
 
 class GeneBlockMembership(models.Model):
     gene = models.ForeignKey(Gene)
-    gene_block = models.ForeignKey(GeneBlockInfo)
+    gene_block = models.ForeignKey(GeneBlock)
     class Meta:
         unique_together = ('gene', 'gene_block')
         db_table = u'gene_block_membership'
