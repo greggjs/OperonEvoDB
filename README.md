@@ -7,6 +7,7 @@ Install system (aptitude) dependencies before pip dependencies for a seamless in
 
 - RabbitMQ: follow [Install RabbitMQ on Debian](http://www.rabbitmq.com/install-debian.html)
 - mysql-server
+- libmysqlclient-dev
 - apache2
 - libapache2-mod-wsgi
 - python-pip

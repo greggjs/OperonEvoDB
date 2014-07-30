@@ -128,13 +128,14 @@ class Hgt(models.Model):
 ##############################################################
 
 class Job(models.Model):
-    status = models.TextField()
+    status = models.TextField(default='QUEUED')
     dateCreated = models.DateTimeField(auto_now_add=True, editable=False)
     lastModified = models.DateTimeField(auto_now=True)
     result = models.ForeignKey(RequestResult, null=True, unique=True, default=None)
-    completed = models.FloatField()
+    completed = models.FloatField(default=0.0)
+    query = models.TextField()
     class Meta:
-        db_table = u'requestjob'
+        db_table = u'job'
         app_label = u'operons.rest'
 
 class Figure(models.Model):
@@ -156,5 +157,5 @@ class Result(models.Model):
     job = models.ForeignKey(Job, unique=True)
     dateCreated = models.DateTimeField(auto_now_add=True, editable=False)
     class Meta:
-        db_table = u'requestresult'
+        db_table = u'result'
         app_label = u'operons.rest'

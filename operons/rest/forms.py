@@ -12,6 +12,8 @@ from serializers import JobSerializer, ResultSerializer
 from exceptions import JobDoesNotExist
 from django.core.exceptions import ValidationError
 import json
+from Bio import SeqIO
+from StringIO import StringIO
 
 class JobForm(forms.Form):
     # Path parameters
@@ -35,17 +37,40 @@ class JobForm(forms.Form):
 
 class JobListForm(forms.Form):
     # Post parameters
-    sequence = forms.CharField(required=True)
+    query = forms.CharField(required=True)
 
-    def clean_sequence(self):
+    def clean_query(self):
         try:
             # check to see if it is valid json and thus a list of genes
-
+            gene_list = json.loads(self.cleaned_data['query'])
+            if not isinstance(gene_list, list):
+                raise ValidationError("Requires a list of gene names be sent")
+            return {
+                'type' : 'GENE_LIST',
+                'data' : gene_list
+            }
         except ValueError:
             # check to make sure the input is a valid sequence
-
+            io = StringIO(self.cleaned_data['query'])
+            sequences = list(SeqIO.parse(open(io), 'fasta'))
+            if not sequences:
+                raise ValidationError("The query as a sequence must be in valid FASTA format")
+            return {
+                'type' : 'FASTA',
+                'data' : sequences
+            }
 
     def submit(self, request):
+        job = Job(query=json.dumps(self.cleaned_data['query']))
+
+        try:
+            job.save()
+        except DatabaseError:
+            raise DatabaseIntegrityError()
+
+        if self.cleaned_data['query']['type'] == 'FASTA':
+
+        else:
 
 
 
