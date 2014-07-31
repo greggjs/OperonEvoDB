@@ -29,7 +29,7 @@ class JobForm(forms.Form):
         try:
             job = Job.objects.get(pk__exact=self.cleaned_data['request_job_id'])
         except (Job.DoesNotExist, ValueError):
-            raise JobDoesNotExist():
+            raise JobDoesNotExist()
 
         return JobSerializer(job).data
 
@@ -40,13 +40,13 @@ class JobListForm(forms.Form):
     def clean_sequence(self):
         try:
             # check to see if it is valid json and thus a list of genes
-
+            pass
         except ValueError:
             # check to make sure the input is a valid sequence
-
+            pass
 
     def submit(self, request):
-
+        pass
 
 
 
@@ -66,6 +66,6 @@ class ResultForm(forms.Form):
         try:
             result = Result.objects.get(pk__exact=self.cleaned_data['request_result_id'])
         except (Job.DoesNotExist, ValueError):
-            raise JobDoesNotExist():
+            raise JobDoesNotExist()
 
         return ResultSerializer(result).data

@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import json
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 SITE_URL = '/'
@@ -59,15 +60,17 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
+with open(os.path.join(BASE_DIR, os.path.join('config', 'db.json')), 'r') as db_handle:
+    defaultdb = json.load(db_handle)
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'operonevodb',                      # Or path to database file if using sqlite3.
-        'USER': 'operonuser',
-        'PASSWORD': 'password',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': ''
+        'NAME': defaultdb['name'],                      # Or path to database file if using sqlite3.
+        'USER': defaultdb['user'],
+        'PASSWORD': defaultdb['password'],
+        'HOST': defaultdb['host'],                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        'PORT': defaultdb['port']
     }
 }
 

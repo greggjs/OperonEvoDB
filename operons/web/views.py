@@ -9,7 +9,7 @@ class Page:
         self._head = head
         self._body = body
         self._script = script
-        self._title
+        self._title = title
 
     @staticmethod
     def fromGroup(group):
@@ -39,9 +39,10 @@ class PageFactory:
     JOB_STATUS = Page.fromGroup('status')
     JOB_RESULTS = Page.fromGroup('results')
 
+    @staticmethod
     def instance(page):
         @require_GET
-        def page(request):
+        def inner(request):
             context = RequestContext(request)
             body = loader.render_to_string(page.body(), {}, context)
             head = '' if not page.head() else loader.render_to_string(page.head(), {}, context)
@@ -52,4 +53,6 @@ class PageFactory:
                 'head' : head,
                 'script': page.script()
             }
-        return page
+            context.update(args)
+            return HttpResponse(app.render(context))
+        return inner

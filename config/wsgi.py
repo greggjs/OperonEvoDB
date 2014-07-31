@@ -14,10 +14,10 @@ import site
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 
 # Add the site-packages of the chosen virtualenv to work with
-site.addsitedir('/virtualenvs/operon-evo-db/local/lib/python2.7/site-packages')
+site.addsitedir('/Users/oberlina/.virtualenvs/operon-evo-db/local/lib/python2.7/site-packages')
 
 # Activate the virtual env
-activate_env = os.path.expanduser("/virtualenvs/operon-evo-db/bin/activate_this.py")
+activate_env = os.path.expanduser("/Users/oberlina/.virtualenvs/operon-evo-db/bin/activate_this.py")
 execfile(activate_env, dict(__file__=activate_env))
 
 from django.core.wsgi import get_wsgi_application

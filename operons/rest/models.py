@@ -127,11 +127,25 @@ class Hgt(models.Model):
 #                                                            #
 ##############################################################
 
+class Result(models.Model):
+    '''
+        The representation of the output of the OperonEvoDB service.
+    '''
+    deletions = models.IntegerField()
+    duplications = models.IntegerField()
+    splits = models.IntegerField()
+    rearrangements = models.IntegerField()
+    hgt = models.IntegerField()
+    dateCreated = models.DateTimeField(auto_now_add=True, editable=False)
+    class Meta:
+        db_table = u'requestresult'
+        app_label = u'operons.rest'
+
 class Job(models.Model):
     status = models.TextField()
     dateCreated = models.DateTimeField(auto_now_add=True, editable=False)
     lastModified = models.DateTimeField(auto_now=True)
-    result = models.ForeignKey(RequestResult, null=True, unique=True, default=None)
+    result = models.ForeignKey(Result, null=True, unique=True, default=None)
     completed = models.FloatField()
     class Meta:
         db_table = u'requestjob'
@@ -142,19 +156,4 @@ class Figure(models.Model):
     url = models.TextField(unique=True)
     class Meta:
         db_table = u'figure'
-        app_label = u'operons.rest'
-
-class Result(models.Model):
-    '''
-        The representation of the output of the OperonEvoDB service.
-    '''
-    deletions = models.IntegerField()
-    duplications = models.IntegerField()
-    splits = models.IntegerField()
-    rearrangements = models.IntegerField()
-    hgt = models.IntegerField()
-    job = models.ForeignKey(Job, unique=True)
-    dateCreated = models.DateTimeField(auto_now_add=True, editable=False)
-    class Meta:
-        db_table = u'requestresult'
         app_label = u'operons.rest'

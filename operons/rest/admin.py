@@ -1,6 +1,7 @@
-from models import RequestJob, RequestResult
+import models
 from django.contrib import admin
 
 # Register your models here.
-admin.site.register(RequestJob)
-admin.site.register(RequestResult)
+admin.site.register(models.Job)
+admin.site.register(models.Result)
+admin.site.register(models.Figure)
