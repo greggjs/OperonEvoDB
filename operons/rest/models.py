@@ -142,13 +142,13 @@ class Result(models.Model):
         app_label = u'operons.rest'
 
 class Job(models.Model):
-    status = models.TextField()
+    status = models.TextField(default='QUEUED')
     dateCreated = models.DateTimeField(auto_now_add=True, editable=False)
     lastModified = models.DateTimeField(auto_now=True)
     result = models.ForeignKey(Result, null=True, unique=True, default=None)
-    completed = models.FloatField()
+    completed = models.FloatField(default=0.0)
     class Meta:
-        db_table = u'requestjob'
+        db_table = u'job'
         app_label = u'operons.rest'
 
 class Figure(models.Model):
